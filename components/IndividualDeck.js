@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { connect } from 'react-redux';
+import { addCard } from '../actions/Decks'
 
 class IndividualDeck extends React.Component {
 
     onNewCardButtonPress = () => {
-
+        const { navigation, deck } = this.props
+        navigation.navigate('AddCard', { deckTitle: deck.title })
     }
 
     onStartQuizButtonPress = () => {

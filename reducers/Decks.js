@@ -1,4 +1,4 @@
-import { ADD_NEW_DECK } from "../actions/Decks"
+import { ADD_NEW_DECK, ADD_CARD } from "../actions/Decks"
 
 const decks = (state = {}, action) => {
     switch (action.type) {
@@ -6,6 +6,16 @@ const decks = (state = {}, action) => {
             return {
                 ...state,
                 [action.deck.title]: action.deck
+            }
+        case ADD_CARD:
+            const { deckTitle, card } = action
+            const oldDeck = state[deckTitle]
+            return {
+                ...state,
+                [deckTitle]: {
+                    ...oldDeck,
+                    cards: oldDeck.cards.concat([card])
+                }
             }
         default:
             return state

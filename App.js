@@ -11,6 +11,7 @@ import { createStore } from 'redux';
 import reducers from './reducers'
 import middleware from './middleware';
 import IndividualDeck from './components/IndividualDeck';
+import AddCard from './components/AddCard';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,6 +22,7 @@ function AddDeckStackScreen() {
     <AddDeckStack.Navigator>
       <AddDeckStack.Screen name="AddDeck" component={AddDeck} />
       <AddDeckStack.Screen name="IndividualDeck" component={IndividualDeck} />
+      <AddDeckStack.Screen name="AddCard" component={AddCard} />
     </AddDeckStack.Navigator>
   );
 }
