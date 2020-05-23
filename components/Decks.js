@@ -2,13 +2,31 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 
-function Decks() {
+class Decks extends React.Component {
 
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Decks!</Text>
-        </View>
-    );
+    isThereAnyDeck(decks) {
+        return Object.keys(decks).length > 0
+    }
+
+    render() {
+        const { decks } = this.props
+        return (
+            this.isThereAnyDeck(decks)
+                ? <View>
+                    {decks.map((deck) => (<Text>{JSON.stringify(deck)}</Text>))}
+                </View>
+                : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text>Please create a deck.</Text>
+                </View>
+        );
+    }
 }
 
-export default connect()(Decks)
+function mapStateToProps(state) {
+
+    return {
+        decks: state.decks
+    }
+}
+
+export default connect(mapStateToProps)(Decks)
