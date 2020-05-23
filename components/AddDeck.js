@@ -34,7 +34,7 @@ function AddDeck() {
         />
         <Button
           onPress={onNewDeckButtonPress}
-          title="Create"
+          title="Create Deck"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
         />
