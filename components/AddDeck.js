@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
 
 function AddDeck() {
 
@@ -10,4 +11,4 @@ function AddDeck() {
     );
 }
 
-export default AddDeck
+export default connect()(AddDeck)

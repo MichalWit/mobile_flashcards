@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
 
 function Decks() {
 
@@ -10,4 +11,4 @@ function Decks() {
     );
 }
 
-export default Decks
+export default connect()(Decks)
