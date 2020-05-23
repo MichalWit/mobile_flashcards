@@ -12,6 +12,7 @@ import reducers from './reducers'
 import middleware from './middleware';
 import IndividualDeck from './components/IndividualDeck';
 import AddCard from './components/AddCard';
+import Quiz from './components/Quiz';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,6 +24,7 @@ function AddDeckStackScreen() {
       <AddDeckStack.Screen name="AddDeck" component={AddDeck} />
       <AddDeckStack.Screen name="IndividualDeck" component={IndividualDeck} />
       <AddDeckStack.Screen name="AddCard" component={AddCard} />
+      <AddDeckStack.Screen name="Quiz" component={Quiz} />
     </AddDeckStack.Navigator>
   );
 }

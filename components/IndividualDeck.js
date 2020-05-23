@@ -11,7 +11,8 @@ class IndividualDeck extends React.Component {
     }
 
     onStartQuizButtonPress = () => {
-
+        const { navigation, deck } = this.props
+        navigation.navigate('Quiz', { deckTitle: deck.title })
     }
 
     onDeleteDeckButtonPress = () => {
