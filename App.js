@@ -7,10 +7,11 @@ import Decks from './components/Decks'
 import AddDeck from './components/AddDeck'
 import { createStore } from 'redux';
 import reducers from './reducers'
+import middleware from './middleware';
 
 const Tab = createBottomTabNavigator();
 
-const store = createStore(reducers)
+const store = createStore(reducers, middleware)
 
 export default function App() {
   return (

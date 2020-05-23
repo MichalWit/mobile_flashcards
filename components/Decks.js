@@ -8,12 +8,18 @@ class Decks extends React.Component {
         return Object.keys(decks).length > 0
     }
 
+    extractDecks(decks) {
+        return Object.values(decks)
+    }
+
     render() {
         const { decks } = this.props
         return (
             this.isThereAnyDeck(decks)
                 ? <View>
-                    {decks.map((deck) => (<Text>{JSON.stringify(deck)}</Text>))}
+                    {this.extractDecks(decks).map((deck) => (
+                        <Text key={deck.title}>{deck.title}</Text>
+                    ))}
                 </View>
                 : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Text>Please create a deck.</Text>

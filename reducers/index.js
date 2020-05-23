@@ -1,8 +1,5 @@
 import { combineReducers } from 'redux'
-
-const decks = (state = {}, action) => {
-    return state
-}
+import decks from './Decks'
 
 export default combineReducers({
     decks
