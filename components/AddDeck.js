@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux'
 import { addNewDeck } from '../actions/Decks';
 
-function AddDeck() {
+function AddDeck({ navigation }) {
 
     const [title, onChangeText] = useState('');
     const dispatch = useDispatch()
@@ -22,6 +22,7 @@ function AddDeck() {
           createNewDeck()
         )
       )
+      navigation.navigate('IndividualDeck')
     }
 
     return (

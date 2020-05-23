@@ -1,15 +1,29 @@
 import React from 'react';
 import { Provider } from 'react-redux'
 import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, Screen } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import Decks from './components/Decks'
 import AddDeck from './components/AddDeck'
 import { createStore } from 'redux';
 import reducers from './reducers'
 import middleware from './middleware';
+import IndividualDeck from './components/IndividualDeck';
 
 const Tab = createBottomTabNavigator();
+
+const AddDeckStack = createStackNavigator();
+ 
+function AddDeckStackScreen() {
+  return (
+    <AddDeckStack.Navigator>
+      <AddDeckStack.Screen name="AddDeck" component={AddDeck} />
+      <AddDeckStack.Screen name="IndividualDeck" component={IndividualDeck} />
+    </AddDeckStack.Navigator>
+  );
+}
 
 const store = createStore(reducers, middleware)
 
@@ -19,7 +33,7 @@ export default function App() {
       <NavigationContainer>
         <Tab.Navigator>
           <Tab.Screen name="Decks" component={Decks} />
-          <Tab.Screen name="New Deck" component={AddDeck} />
+          <Tab.Screen name="New Deck" component={AddDeckStackScreen} />
         </Tab.Navigator>
       </NavigationContainer>
     </Provider>
