@@ -17,12 +17,11 @@ function AddDeck({ navigation }) {
     }
 
     const onNewDeckButtonPress = () => {
-      dispatch(
-        addNewDeck(
-          createNewDeck()
-        )
-      )
-      navigation.navigate('IndividualDeck')
+      const newDeck = createNewDeck()
+      dispatch(addNewDeck(newDeck))
+
+      const title = newDeck.title
+      navigation.navigate('IndividualDeck', { title })
     }
 
     return (
