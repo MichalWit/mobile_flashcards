@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux'
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer, Screen } from '@react-navigation/native';
@@ -13,6 +13,7 @@ import middleware from './middleware';
 import IndividualDeck from './components/IndividualDeck';
 import AddCard from './components/AddCard';
 import Quiz from './components/Quiz';
+import { addNewDeck } from './actions/Decks';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,6 +33,21 @@ function AddDeckStackScreen() {
 const store = createStore(reducers, middleware)
 
 export default function App() {
+
+  useEffect(() => {
+    store.dispatch(
+      addNewDeck(
+        {
+          title: "Test Deck",
+          cards: [
+            {question: "A?", answer: "Y."},
+            {question: "B?", answer: "N!"}
+          ]
+        }
+      )
+    )
+  }, []);
+
   return (
     <Provider store={store}>
       <NavigationContainer>
