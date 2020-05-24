@@ -23,13 +23,13 @@ function Card({ card, answeredCorrectly, answeredIncorrectly }) {
                     ? <View style={styles.container}>
                         <Text style={{fontSize: 26}}>{card.answer}</Text>
                         <View style={{marginTop: 10}}>
-                                <Button onPress={toggleAnswerShowed} title='Question'/>
+                                <Button onPress={toggleAnswerShowed} title='Show Question'/>
                         </View>
                     </View>
                     : <View style={styles.container}>
                         <Text style={{fontSize: 26}}>{card.question}</Text>
                         <View style={{marginTop: 10}}>
-                            <Button onPress={toggleAnswerShowed} title='Answer'/>
+                            <Button onPress={toggleAnswerShowed} title='Show Answer'/>
                         </View>
                     </View>
             }

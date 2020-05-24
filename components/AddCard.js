@@ -3,6 +3,14 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { addCard } from '../actions/Decks'
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+})
+
 function AddCard({ addCard, navigation, route }) {
 
     const [question, onChangeQuestion] = useState('');
@@ -22,7 +30,7 @@ function AddCard({ addCard, navigation, route }) {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <Text>Question</Text>
             <TextInput
                 style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
@@ -35,11 +43,12 @@ function AddCard({ addCard, navigation, route }) {
                 onChangeText={text => onChangeAnswer(text)}
                 value={answer}
             />
-            <Button
-                onPress={onCreateCardPress}
-                title="Submit"
-                color="#841584"
-            />
+            <View style={{marginTop: 10}}>
+                <Button
+                    onPress={onCreateCardPress}
+                    title="Submit"
+                />
+            </View>
         </View>
     );
 }

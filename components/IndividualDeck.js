@@ -32,14 +32,12 @@ class IndividualDeck extends React.Component {
                     <Button
                         onPress={this.onNewCardButtonPress}
                         title="Add Card"
-                        color="#841584"
                     />
                 </View>
                 <View style={{marginTop: 10}}>
                     <Button
                         onPress={this.onStartQuizButtonPress}
                         title="Start Quiz"
-                        color="#841584"
                     />
                 </View>
             </View>
