@@ -39,10 +39,10 @@ export default function App() {
       addNewDeck(
         {
           title: "Test Deck",
-          cards: [
-            {question: "A?", answer: "Y."},
-            {question: "B?", answer: "N!"}
-          ]
+          cards: {
+            "A?": {question: "A?", answer: "Y."},
+            "B?": {question: "B?", answer: "N!"}
+          }
         }
       )
     )

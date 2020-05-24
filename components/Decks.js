@@ -30,7 +30,7 @@ function DeckListItem({ deck, navigation }) {
     }
 
     return (
-        <TouchableWithoutFeedback key={deck.title} onPress={onGoToDeck}>
+        <TouchableWithoutFeedback onPress={onGoToDeck}>
             <View style={styles.container}>
                 <Animated.Text style={{fontSize: titleSize}}>{deck.title}</Animated.Text>
                 <Text>{deck.cards.length} cards</Text>
@@ -47,7 +47,7 @@ function DeckList({ decks, navigation }) {
         <View style={styles.container}>
             {
                 extractDecks(decks)
-                    .map((deck) => (<DeckListItem deck={deck} navigation={navigation}/>))
+                    .map((deck) => (<DeckListItem key={deck.title} deck={deck} navigation={navigation}/>))
             }
         </View>
     )
