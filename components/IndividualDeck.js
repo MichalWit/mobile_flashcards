@@ -1,7 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { connect } from 'react-redux';
-import { addCard } from '../actions/Decks'
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
+})
 
 class IndividualDeck extends React.Component {
 
@@ -18,19 +25,23 @@ class IndividualDeck extends React.Component {
     render() {
         const { deck } = this.props
         return (
-            <View>
-                <Text>{deck.title}</Text>
-                <Text>{deck.cards.length} cards</Text>
-                <Button
-                    onPress={this.onNewCardButtonPress}
-                    title="Add Card"
-                    color="#841584"
-                />
-                <Button
-                    onPress={this.onStartQuizButtonPress}
-                    title="Start Quiz"
-                    color="#841584"
-                />
+            <View style={styles.container}>
+                <Text style={{fontSize: 26}}>{deck.title}</Text>
+                <Text style={{marginTop: 10}}>{deck.cards.length} cards</Text>
+                <View style={{marginTop: 10}}>
+                    <Button
+                        onPress={this.onNewCardButtonPress}
+                        title="Add Card"
+                        color="#841584"
+                    />
+                </View>
+                <View style={{marginTop: 10}}>
+                    <Button
+                        onPress={this.onStartQuizButtonPress}
+                        title="Start Quiz"
+                        color="#841584"
+                    />
+                </View>
             </View>
         );
     }
