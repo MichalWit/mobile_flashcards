@@ -1,8 +1,7 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableWithoutFeedback, Animated } from 'react-native';
 import { connect } from 'react-redux';
 
-// TODO
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -11,26 +10,44 @@ const styles = StyleSheet.create({
     },
 })
   
+function DeckListItem({ deck, navigation }) {
+
+    const initialTitleSize = 26
+
+    const [titleSize] = useState(new Animated.Value(initialTitleSize))
+
+    const navigateToDeck = (deckTitle) => {
+        navigation.navigate('IndividualDeck', { title: deckTitle })
+    }
+
+    const onGoToDeck = (deckTitle) => {
+        Animated
+            .sequence([
+                Animated.timing(titleSize, { toValue: 45, duration: 400}),
+                Animated.timing(titleSize, { toValue: initialTitleSize, duration: 400})
+            ])
+            .start(() => navigateToDeck(deckTitle))
+    }
+
+    return (
+        <TouchableWithoutFeedback onPress={() => onGoToDeck(deck.title)}>
+            <View style={styles.container} key={deck.title}>
+                <Animated.Text style={{fontSize: titleSize}}>{deck.title}</Animated.Text>
+                <Text>{deck.cards.length} cards</Text>
+            </View>
+        </TouchableWithoutFeedback>
+    )
+}
+  
 function DeckList({ decks, navigation }) {
 
     const extractDecks = (decks) => (Object.values(decks))
-
-    const onGoToDeck = (deckTitle) => {
-        navigation.navigate('IndividualDeck', { title: deckTitle })
-    }
 
     return (
         <View style={styles.container}>
             {
                 extractDecks(decks)
-                    .map((deck) => (
-                        <TouchableWithoutFeedback onPress={() => onGoToDeck(deck.title)}>
-                            <View style={styles.container} key={deck.title}>
-                                <Text style={{size: 15}}>{deck.title}</Text>
-                                <Text>{deck.cards.length} cards</Text>
-                            </View>
-                        </TouchableWithoutFeedback>
-                    ))
+                    .map((deck) => (<DeckListItem deck={deck} navigation={navigation}/>))
             }
         </View>
     )
@@ -54,11 +71,10 @@ class Decks extends React.Component {
     }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
 
     return {
-        decks: state.decks//,
-        //navigation: ownProps.navigation
+        decks: state.decks
     }
 }
 
