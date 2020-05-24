@@ -73,18 +73,22 @@ function CardDeck({ cards }) {
         setCardsLeft(remainingCards)
     }
 
-    return cardToDisplay
-        ? <Card
-            card={cardToDisplay}
-            key={cardToDisplay.question}
-            answeredCorrectly={answeredCorrectly}
-            answeredIncorrectly={answeredIncorrectly}
-        />
-        : <View style={styles.container}>
-            <Text>Deck complete.</Text>
-            <Text>Correct answers: {results.correct} ({((results.correct / (results.correct + results.incorrect)) * 100).toFixed(0)}%)</Text>
-            <Text>Incorrect answers: {results.incorrect} ({((results.incorrect / (results.correct + results.incorrect)) * 100).toFixed(0)}%)</Text>
-        </View>
+    return <View style={styles.container}>
+        <Text style={{fontSize: 28}}>{(cards.length - results.correct - results.incorrect)} / {cards.length}</Text>
+        { cardToDisplay
+            ? <Card
+                card={cardToDisplay}
+                key={cardToDisplay.question}
+                answeredCorrectly={answeredCorrectly}
+                answeredIncorrectly={answeredIncorrectly}
+            />
+            : <View style={styles.container}>
+                <Text>Deck complete.</Text>
+                <Text>Correct answers: {results.correct} ({((results.correct / cards.length) * 100).toFixed(0)}%)</Text>
+                <Text>Incorrect answers: {results.incorrect} ({((results.incorrect / cards.length) * 100).toFixed(0)}%)</Text>
+            </View>
+        }
+    </View>
 }
 
 function Quiz({ deck }) {
