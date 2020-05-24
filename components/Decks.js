@@ -30,8 +30,8 @@ function DeckListItem({ deck, navigation }) {
     }
 
     return (
-        <TouchableWithoutFeedback onPress={() => onGoToDeck(deck.title)}>
-            <View style={styles.container} key={deck.title}>
+        <TouchableWithoutFeedback key={deck.title} onPress={() => onGoToDeck(deck.title)}>
+            <View style={styles.container}>
                 <Animated.Text style={{fontSize: titleSize}}>{deck.title}</Animated.Text>
                 <Text>{deck.cards.length} cards</Text>
             </View>
