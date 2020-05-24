@@ -14,7 +14,10 @@ const decks = (state = {}, action) => {
                 ...state,
                 [deckTitle]: {
                     ...oldDeck,
-                    cards: oldDeck.cards.concat([card])
+                    cards: {
+                        ...oldDeck.cards,
+                        [card.question]: card
+                    }
                 }
             }
         default:

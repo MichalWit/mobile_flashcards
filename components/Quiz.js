@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { connect } from 'react-redux';
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+})
+
 function Card({ card, answeredCorrectly, answeredIncorrectly }) {
 
     const [answerShowed, setAnswerShowed] = useState(false)
@@ -9,21 +17,29 @@ function Card({ card, answeredCorrectly, answeredIncorrectly }) {
     const toggleAnswerShowed = () => { setAnswerShowed(!answerShowed) }
 
     return (
-        <View>
+        <View style={styles.container}>
             {
                 answerShowed
-                    ? <View>
-                        <Text>{card.answer}</Text>
-                        <Button onPress={toggleAnswerShowed} title='Question'/>
+                    ? <View style={styles.container}>
+                        <Text style={{fontSize: 26}}>{card.answer}</Text>
+                        <View style={{marginTop: 10}}>
+                                <Button onPress={toggleAnswerShowed} title='Question'/>
+                        </View>
                     </View>
-                    : <View>
-                        <Text>{card.question}</Text>
-                        <Button onPress={toggleAnswerShowed} title='Answer'/>
+                    : <View style={styles.container}>
+                        <Text style={{fontSize: 26}}>{card.question}</Text>
+                        <View style={{marginTop: 10}}>
+                            <Button onPress={toggleAnswerShowed} title='Answer'/>
+                        </View>
                     </View>
             }
             <View>
-                <Button onPress={answeredCorrectly} title='Correct'/>
-                <Button onPress={answeredIncorrectly} title='Incorrect'/>
+                <View style={{marginTop: 10}}>
+                    <Button onPress={answeredCorrectly} title='Correct' color='green'/>
+                </View>
+                <View style={{marginTop: 10}}>
+                    <Button onPress={answeredIncorrectly} title='Incorrect' color='red'/>
+                </View>
             </View>
         </View>
     );
@@ -64,8 +80,8 @@ function CardDeck({ cards }) {
             answeredCorrectly={answeredCorrectly}
             answeredIncorrectly={answeredIncorrectly}
         />
-        : <View>
-            <Text>Deck complete. {JSON.stringify(results)}</Text>
+        : <View style={styles.container}>
+            <Text>Deck complete.</Text>
             <Text>Correct answers: {results.correct} ({((results.correct / (results.correct + results.incorrect)) * 100).toFixed(0)}%)</Text>
             <Text>Incorrect answers: {results.incorrect} ({((results.incorrect / (results.correct + results.incorrect)) * 100).toFixed(0)}%)</Text>
         </View>
@@ -81,7 +97,9 @@ function Quiz({ deck }) {
             {
                 cards.length > 0
                     ? <CardDeck cards={cards}/>
-                    : <View>Sorry, you cannot take the quiz, because there are no cards in the deck.</View>
+                    : <View style={styles.container}>
+                        <Text>Sorry, you cannot take the quiz, because there are no cards in the deck.</Text>
+                    </View>
             }
         </View>
     );
