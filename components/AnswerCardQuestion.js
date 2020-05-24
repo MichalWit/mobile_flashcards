@@ -3,12 +3,12 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { addCard } from '../actions/Decks'
 
-function AddCard({ addCard, navigation, route }) {
+function AnswerCardQuestion({ addCard, navigation, route }) {
 
     const [question, onChangeQuestion] = useState('');
     const [answer, onChangeAnswer] = useState('');
 
-    const onCreateCardPress = () => {
+    const onSubmitPress = () => {
         addCard(
             {
                 question,
@@ -16,8 +16,6 @@ function AddCard({ addCard, navigation, route }) {
             }
         )
         const { deckTitle } = route.params
-        onChangeAnswer('')
-        onChangeQuestion('')
         navigation.navigate('IndividualDeck', { title: deckTitle })
     }
 
@@ -36,7 +34,7 @@ function AddCard({ addCard, navigation, route }) {
                 value={answer}
             />
             <Button
-                onPress={onCreateCardPress}
+                onPress={onSubmitPress}
                 title="Submit"
                 color="#841584"
             />

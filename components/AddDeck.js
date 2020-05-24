@@ -6,7 +6,7 @@ import { addNewDeck } from '../actions/Decks';
 
 function AddDeck({ navigation }) {
 
-    const [title, onChangeText] = useState('');
+    const [title, onChangeTitle] = useState('');
     const dispatch = useDispatch()
 
     const createNewDeck = () => {
@@ -22,6 +22,7 @@ function AddDeck({ navigation }) {
 
       const title = newDeck.title
       navigation.navigate('IndividualDeck', { title })
+      onChangeTitle('')
     }
 
     return (
@@ -29,7 +30,7 @@ function AddDeck({ navigation }) {
         <Text>What is the title of your new deck?</Text>
         <TextInput
           style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-          onChangeText={text => onChangeText(text)}
+          onChangeText={text => onChangeTitle(text)}
           value={title}
         />
         <Button
