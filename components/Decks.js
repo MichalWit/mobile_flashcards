@@ -16,21 +16,21 @@ function DeckListItem({ deck, navigation }) {
 
     const [titleSize] = useState(new Animated.Value(initialTitleSize))
 
-    const navigateToDeck = (deckTitle) => {
-        navigation.navigate('IndividualDeck', { title: deckTitle })
+    const navigateToDeck = () => {
+        navigation.navigate('IndividualDeck', { title: deck.title })
     }
 
-    const onGoToDeck = (deckTitle) => {
+    const onGoToDeck = () => {
         Animated
             .sequence([
                 Animated.timing(titleSize, { toValue: 45, duration: 400}),
                 Animated.timing(titleSize, { toValue: initialTitleSize, duration: 400})
             ])
-            .start(() => navigateToDeck(deckTitle))
+            .start(navigateToDeck)
     }
 
     return (
-        <TouchableWithoutFeedback key={deck.title} onPress={() => onGoToDeck(deck.title)}>
+        <TouchableWithoutFeedback key={deck.title} onPress={onGoToDeck}>
             <View style={styles.container}>
                 <Animated.Text style={{fontSize: titleSize}}>{deck.title}</Animated.Text>
                 <Text>{deck.cards.length} cards</Text>
