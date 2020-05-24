@@ -15,10 +15,6 @@ class IndividualDeck extends React.Component {
         navigation.navigate('Quiz', { deckTitle: deck.title })
     }
 
-    onDeleteDeckButtonPress = () => {
-
-    }
-
     render() {
         const { deck } = this.props
         return (
@@ -33,11 +29,6 @@ class IndividualDeck extends React.Component {
                 <Button
                     onPress={this.onStartQuizButtonPress}
                     title="Start Quiz"
-                    color="#841584"
-                />
-                <Button
-                    onPress={this.onDeleteDeckButtonPress}
-                    title="Delete Deck"
                     color="#841584"
                 />
             </View>
