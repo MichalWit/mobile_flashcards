@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 
 // TODO
@@ -11,19 +11,25 @@ const styles = StyleSheet.create({
     },
 })
   
-function DeckList({ decks }) {
+function DeckList({ decks, navigation }) {
 
     const extractDecks = (decks) => (Object.values(decks))
+
+    const onGoToDeck = (deckTitle) => {
+        navigation.navigate('IndividualDeck', { title: deckTitle })
+    }
 
     return (
         <View style={styles.container}>
             {
                 extractDecks(decks)
                     .map((deck) => (
-                        <View style={styles.container} key={deck.title}>
-                            <Text style={{size: 15}}>{deck.title}</Text>
-                            <Text>{deck.cards.length} cards</Text>
-                        </View>
+                        <TouchableWithoutFeedback onPress={() => onGoToDeck(deck.title)}>
+                            <View style={styles.container} key={deck.title}>
+                                <Text style={{size: 15}}>{deck.title}</Text>
+                                <Text>{deck.cards.length} cards</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
                     ))
             }
         </View>
@@ -37,10 +43,10 @@ class Decks extends React.Component {
     }
 
     render() {
-        const { decks } = this.props
+        const { decks, navigation } = this.props
         return (
             this.isThereAnyDeck(decks)
-                ? <DeckList decks={decks}/>
+                ? <DeckList decks={decks} navigation={navigation}/>
                 : <View style={styles.container}>
                     <Text>Please create a deck.</Text>
                 </View>
@@ -48,10 +54,11 @@ class Decks extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
 
     return {
-        decks: state.decks
+        decks: state.decks//,
+        //navigation: ownProps.navigation
     }
 }
 
