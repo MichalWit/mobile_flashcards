@@ -45,7 +45,7 @@ function Card({ card, answeredCorrectly, answeredIncorrectly }) {
     );
 }
 
-function CardDeck({ cards }) {
+function CardDeck({ cards, goToDeck }) {
 
     const [results, setResults] = useState({correct: 0, incorrect: 0})
     const [cardsLeft, setCardsLeft] = useState(cards)
@@ -73,6 +73,11 @@ function CardDeck({ cards }) {
         setCardsLeft(remainingCards)
     }
 
+    const resetQuiz = () => {
+        setResults({correct: 0, incorrect: 0})
+        setCardsLeft(cards)
+    }
+
     return <View style={styles.container}>
         <Text style={{fontSize: 28}}>{(cards.length - results.correct - results.incorrect)} / {cards.length}</Text>
         { cardToDisplay
@@ -86,21 +91,33 @@ function CardDeck({ cards }) {
                 <Text>Deck complete.</Text>
                 <Text>Correct answers: {results.correct} ({((results.correct / cards.length) * 100).toFixed(0)}%)</Text>
                 <Text>Incorrect answers: {results.incorrect} ({((results.incorrect / cards.length) * 100).toFixed(0)}%)</Text>
+                <View style={{marginTop: 10}}>
+                    <Button onPress={() => resetQuiz()} title='Restart Quiz'/>
+                </View>
+                <View style={{marginTop: 10}}>
+                    <Button onPress={() => goToDeck()} title='Back to Deck'/>
+                </View>
             </View>
         }
     </View>
 }
 
-function Quiz({ deck }) {
+function Quiz({ deck, navigation }) {
 
     const extractCards = (cards) => (Object.values(cards))
     const cards = extractCards(deck.cards)
+    const goToDeck = () => {
+        navigation.navigate('IndividualDeck', { title: deck.title })
+    }
 
     return (
         <View>
             {
                 cards.length > 0
-                    ? <CardDeck cards={cards}/>
+                    ? <CardDeck
+                        cards={cards}
+                        goToDeck={goToDeck}
+                    />
                     : <View style={styles.container}>
                         <Text>Sorry, you cannot take the quiz, because there are no cards in the deck.</Text>
                     </View>
