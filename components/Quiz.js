@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { getTodaysDateKey } from '../utils/date'
 import { quizDeckIsTaken } from '../actions/Decks'
@@ -11,41 +11,64 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    buttonContainer: {
+      margin: 20
+    }
 })
 
-function Card({ card, answeredCorrectly, answeredIncorrectly }) {
+class Card extends React.Component {
 
-    const [answerShowed, setAnswerShowed] = useState(false)
+    state = {
+        answerShowed: false
+    }
 
-    const toggleAnswerShowed = () => { setAnswerShowed(!answerShowed) }
+    setAnswerShowed = (value) => {
+        this.setState({
+            answerShowed: value
+        })
+    }
 
-    return (
-        <View style={styles.container}>
-            {
-                answerShowed
-                    ? <View style={styles.container}>
-                        <Text style={{fontSize: 26}}>{card.answer}</Text>
-                        <View style={{marginTop: 10}}>
-                                <Button onPress={toggleAnswerShowed} title='Show Question'/>
-                        </View>
-                    </View>
-                    : <View style={styles.container}>
-                        <Text style={{fontSize: 26}}>{card.question}</Text>
-                        <View style={{marginTop: 10}}>
-                            <Button onPress={toggleAnswerShowed} title='Show Answer'/>
-                        </View>
-                    </View>
-            }
-            <View>
-                <View style={{marginTop: 10}}>
+    toggleAnswerShowed = () => {
+        this.setState((state) => ({
+            answerShowed: !state.answerShowed
+        }))
+    }
+
+    render() {
+        const { answerShowed } = this.state
+        const { card, answeredCorrectly, answeredIncorrectly } = this.props
+        return (
+            <React.Fragment>
+                {
+                    answerShowed
+                        ? <React.Fragment>
+                            <Text style={{fontSize: 26}}>{card.answer}</Text>
+                            <View style={styles.buttonContainer}>
+                                <Button
+                                    onPress={this.toggleAnswerShowed}
+                                    title='Show Question'
+                                />
+                            </View>
+                        </React.Fragment>
+                        : <React.Fragment>
+                            <Text style={{fontSize: 26}}>{card.question}</Text>
+                            <View style={styles.buttonContainer}>
+                                <Button
+                                    onPress={this.toggleAnswerShowed}
+                                    title='Show Answer'
+                                />
+                            </View>
+                        </React.Fragment>
+                }
+                <View style={styles.buttonContainer}>
                     <Button onPress={answeredCorrectly} title='Correct' color='green'/>
                 </View>
-                <View style={{marginTop: 10}}>
+                <View style={styles.buttonContainer}>
                     <Button onPress={answeredIncorrectly} title='Incorrect' color='red'/>
                 </View>
-            </View>
-        </View>
-    );
+            </React.Fragment>
+        );
+    }
 }
 
 function CardDeck({ cards, goToDeck, addTakenOnDate }) {
@@ -128,7 +151,7 @@ function Quiz({ deck, navigation, quizDeckIsTaken }) {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             {
                 cards.length > 0
                     ? <CardDeck
@@ -136,7 +159,7 @@ function Quiz({ deck, navigation, quizDeckIsTaken }) {
                         goToDeck={goToDeck}
                         addTakenOnDate={addTakenOnDate}
                     />
-                    : <View style={styles.container}>
+                    : <View>
                         <Text>Sorry, you cannot take the quiz, because there are no cards in the deck.</Text>
                     </View>
             }

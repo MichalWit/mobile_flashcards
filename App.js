@@ -19,16 +19,26 @@ import { scheduleLocalNotificationStartingToday } from './utils/notifications'
 
 const Tab = createBottomTabNavigator();
 
-const AddDeckStack = createStackNavigator();
- 
-function AddDeckStackScreen() {
+const Stack = createStackNavigator();
+
+function Tabs() {
   return (
-    <AddDeckStack.Navigator>
-      <AddDeckStack.Screen name="AddDeck" component={AddDeck} />
-      <AddDeckStack.Screen name="IndividualDeck" component={IndividualDeck} />
-      <AddDeckStack.Screen name="AddCard" component={AddCard} />
-      <AddDeckStack.Screen name="Quiz" component={Quiz} />
-    </AddDeckStack.Navigator>
+    <Tab.Navigator>
+      <Tab.Screen name="Decks" component={Decks} />
+      <Tab.Screen name="New Deck" component={AddDeck} />
+    </Tab.Navigator>
+  );
+}
+
+function Main() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={Tabs} />
+      <Stack.Screen name="AddDeck" component={AddDeck} />
+      <Stack.Screen name="IndividualDeck" component={IndividualDeck} />
+      <Stack.Screen name="AddCard" component={AddCard} />
+      <Stack.Screen name="Quiz" component={Quiz} />
+    </Stack.Navigator>
   );
 }
 
@@ -61,10 +71,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen name="Decks" component={Decks} />
-          <Tab.Screen name="New Deck" component={AddDeckStackScreen} />
-        </Tab.Navigator>
+        <Main/>
       </NavigationContainer>
     </Provider>
   );
