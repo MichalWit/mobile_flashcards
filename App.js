@@ -14,6 +14,7 @@ import IndividualDeck from './components/IndividualDeck';
 import AddCard from './components/AddCard';
 import Quiz from './components/Quiz';
 import { addNewDeck } from './actions/Decks';
+import { getDateKey } from './utils/date'
 
 const Tab = createBottomTabNavigator();
 
@@ -35,6 +36,11 @@ const store = createStore(reducers, middleware)
 export default function App() {
 
   useEffect(() => {
+
+    const today = new Date();
+    today.setDate(today.getDate() - 1); // yesterday effectively
+    const yesterday = new Date(today);
+
     store.dispatch(
       addNewDeck(
         {
@@ -42,7 +48,8 @@ export default function App() {
           cards: {
             "A?": {question: "A?", answer: "Y."},
             "B?": {question: "B?", answer: "N!"}
-          }
+          },
+          takenOn: [ getDateKey(yesterday) ]
         }
       )
     )

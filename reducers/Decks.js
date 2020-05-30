@@ -1,4 +1,4 @@
-import { ADD_NEW_DECK, ADD_CARD } from "../actions/Decks"
+import { ADD_NEW_DECK, ADD_CARD, QUIZ_DECK_TAKEN } from "../actions/Decks"
 
 const decks = (state = {}, action) => {
     switch (action.type) {
@@ -18,6 +18,16 @@ const decks = (state = {}, action) => {
                         ...oldDeck.cards,
                         [card.question]: card
                     }
+                }
+            }
+        case QUIZ_DECK_TAKEN:
+            const { dateKey } = action
+            const deck = state[action.deckTitle]
+            return {
+                ...state,
+                [action.deckTitle]: {
+                    ...deck,
+                    takenOn: deck.takenOn.concat([dateKey])
                 }
             }
         default:

@@ -12,7 +12,8 @@ function AddDeck({ navigation }) {
     const createNewDeck = () => {
       return {
         title,
-        cards: {}
+        cards: {},
+        takenOn: []
       }
     }
 

@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 })
-  
+
 function DeckListItem({ deck, navigation }) {
 
     const initialTitleSize = 26

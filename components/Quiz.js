@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { connect } from 'react-redux';
+import { getTodaysDateKey } from '../utils/date'
+import { quizDeckIsTaken } from '../actions/Decks'
 
 const styles = StyleSheet.create({
     container: {
@@ -45,7 +47,7 @@ function Card({ card, answeredCorrectly, answeredIncorrectly }) {
     );
 }
 
-function CardDeck({ cards, goToDeck }) {
+function CardDeck({ cards, goToDeck, addTakenOnDate }) {
 
     const [results, setResults] = useState({correct: 0, incorrect: 0})
     const [cardsLeft, setCardsLeft] = useState(cards)
@@ -57,12 +59,20 @@ function CardDeck({ cards, goToDeck }) {
     }
     const [cardToDisplay, remainingCards] = headAndTail(cardsLeft)
 
+    const addTakenOnIfLastCard = () => {
+        const isLastCard = cardsLeft.length === 1
+        if (isLastCard) {
+            addTakenOnDate()
+        }
+    }
+
     const answeredCorrectly = () => {
         setResults({
             correct: results.correct + 1,
             incorrect: results.incorrect
         })
         setCardsLeft(remainingCards)
+        addTakenOnIfLastCard()
     }
 
     const answeredIncorrectly = () => {
@@ -71,6 +81,7 @@ function CardDeck({ cards, goToDeck }) {
             incorrect: results.incorrect + 1
         })
         setCardsLeft(remainingCards)
+        addTakenOnIfLastCard()
     }
 
     const resetQuiz = () => {
@@ -102,12 +113,16 @@ function CardDeck({ cards, goToDeck }) {
     </View>
 }
 
-function Quiz({ deck, navigation }) {
+function Quiz({ deck, navigation, quizDeckIsTaken }) {
 
     const extractCards = (cards) => (Object.values(cards))
     const cards = extractCards(deck.cards)
+
     const goToDeck = () => {
         navigation.navigate('IndividualDeck', { title: deck.title })
+    }
+    const addTakenOnDate = () => {
+        quizDeckIsTaken(deck.title, getTodaysDateKey())
     }
 
     return (
@@ -117,6 +132,7 @@ function Quiz({ deck, navigation }) {
                     ? <CardDeck
                         cards={cards}
                         goToDeck={goToDeck}
+                        addTakenOnDate={addTakenOnDate}
                     />
                     : <View style={styles.container}>
                         <Text>Sorry, you cannot take the quiz, because there are no cards in the deck.</Text>
@@ -133,4 +149,10 @@ function mapStateToProps(state, ownProps) {
     }
 }
 
-export default connect(mapStateToProps)(Quiz)
+function mapDispatchToProps(dispatch, ownProps) {
+    return {
+        quizDeckIsTaken: (deckTitle, dateKey) => dispatch(quizDeckIsTaken(deckTitle, dateKey))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Quiz)
