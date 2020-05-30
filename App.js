@@ -15,6 +15,7 @@ import AddCard from './components/AddCard';
 import Quiz from './components/Quiz';
 import { addNewDeck } from './actions/Decks';
 import { getDateKey } from './utils/date'
+import { scheduleLocalNotificationStartingToday } from './utils/notifications'
 
 const Tab = createBottomTabNavigator();
 
@@ -53,6 +54,8 @@ export default function App() {
         }
       )
     )
+
+    scheduleLocalNotificationStartingToday()
   }, []);
 
   return (

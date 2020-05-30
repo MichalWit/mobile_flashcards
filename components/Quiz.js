@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { getTodaysDateKey } from '../utils/date'
 import { quizDeckIsTaken } from '../actions/Decks'
+import { clearLocalNotification, scheduleLocalNotificationStartingTomorrow } from '../utils/notifications'
 
 const styles = StyleSheet.create({
     container: {
@@ -59,10 +60,11 @@ function CardDeck({ cards, goToDeck, addTakenOnDate }) {
     }
     const [cardToDisplay, remainingCards] = headAndTail(cardsLeft)
 
-    const addTakenOnIfLastCard = () => {
+    const addTakenOnAndRescheduleNotificationsIfLastCard = () => {
         const isLastCard = cardsLeft.length === 1
         if (isLastCard) {
             addTakenOnDate()
+            clearLocalNotification().then(scheduleLocalNotificationStartingTomorrow)
         }
     }
 
@@ -72,7 +74,7 @@ function CardDeck({ cards, goToDeck, addTakenOnDate }) {
             incorrect: results.incorrect
         })
         setCardsLeft(remainingCards)
-        addTakenOnIfLastCard()
+        addTakenOnAndRescheduleNotificationsIfLastCard()
     }
 
     const answeredIncorrectly = () => {
@@ -81,7 +83,7 @@ function CardDeck({ cards, goToDeck, addTakenOnDate }) {
             incorrect: results.incorrect + 1
         })
         setCardsLeft(remainingCards)
-        addTakenOnIfLastCard()
+        addTakenOnAndRescheduleNotificationsIfLastCard()
     }
 
     const resetQuiz = () => {
