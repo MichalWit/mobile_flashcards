@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, Button } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { getTodaysDateKey } from '../utils/date'
 import { quizDeckIsTaken } from '../actions/Decks'
@@ -13,6 +13,11 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
       margin: 20
+    },
+    button: {
+      alignItems: "center",
+      backgroundColor: "#DDDDDD",
+      padding: 10
     }
 })
 
@@ -44,19 +49,24 @@ class Card extends React.Component {
                         ? <React.Fragment>
                             <Text style={{fontSize: 26}}>{card.answer}</Text>
                             <View style={styles.buttonContainer}>
-                                <Button
+                                <TouchableOpacity
+                                    style={styles.button}
                                     onPress={this.toggleAnswerShowed}
-                                    title='Show Question'
-                                />
+                                >
+                                    <Text>Show Question</Text>
+                                </TouchableOpacity>
+                                
                             </View>
                         </React.Fragment>
                         : <React.Fragment>
                             <Text style={{fontSize: 26}}>{card.question}</Text>
                             <View style={styles.buttonContainer}>
-                                <Button
+                                <TouchableOpacity
+                                    style={styles.button}
                                     onPress={this.toggleAnswerShowed}
-                                    title='Show Answer'
-                                />
+                                >
+                                    <Text>Show Answer</Text>
+                                </TouchableOpacity>
                             </View>
                         </React.Fragment>
                 }
