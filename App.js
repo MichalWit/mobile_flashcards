@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux'
-import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer, Screen } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,9 +12,10 @@ import middleware from './middleware';
 import IndividualDeck from './components/IndividualDeck';
 import AddCard from './components/AddCard';
 import Quiz from './components/Quiz';
-import { addNewDeck } from './actions/Decks';
-import { getDateKey } from './utils/date'
+import { addDecks } from './actions/Decks';
+import { getDateKey, getTodaysDateKey } from './utils/date'
 import { scheduleLocalNotificationStartingToday } from './utils/notifications'
+import { getStateFromStorage, saveNewAppState } from './utils/storage'
 
 const Tab = createBottomTabNavigator();
 
@@ -46,15 +46,14 @@ const store = createStore(reducers, middleware)
 
 export default function App() {
 
-  useEffect(() => {
+  const addTestDeck = () => {
+    const today = new Date()
+    today.setDate(today.getDate() - 1)
+    const yesterday = new Date(today)
 
-    const today = new Date();
-    today.setDate(today.getDate() - 1); // yesterday effectively
-    const yesterday = new Date(today);
-
-    store.dispatch(
-      addNewDeck(
-        {
+    return saveNewAppState({
+      decks: {
+        "Test Deck": {
           title: "Test Deck",
           cards: {
             "A?": {question: "A?", answer: "Y."},
@@ -62,10 +61,42 @@ export default function App() {
           },
           takenOn: [ getDateKey(yesterday) ]
         }
-      )
-    )
+      }
+    })
+  }
 
-    scheduleLocalNotificationStartingToday()
+  const findDeckTakenToday = (decks, todaysKey) => {
+    const deckMaybe = decks
+      .find((deck) => {
+        const takenOnMaybe = deck.takenOn
+          .find((takenOnDate) => (takenOnDate === todaysKey))
+        return takenOnMaybe !== undefined
+      })
+    return deckMaybe
+  }
+
+  const scheduleNotificationForTodayIfNoneTaken = (decks) => {
+    const todaysKey = getTodaysDateKey()
+    const deckValues = Object.values(decks)
+
+    const deckMaybe = findDeckTakenToday(deckValues, todaysKey)
+    const aDeckBeenTakenDoday = deckMaybe !== undefined
+
+    if (!aDeckBeenTakenDoday) {
+      scheduleLocalNotificationStartingToday()
+    }
+  }
+
+  useEffect(() => {
+    addTestDeck()
+      .then(() => {
+        getStateFromStorage()
+          .then((currentState) => {
+            const { decks } = currentState
+            store.dispatch(addDecks(decks))
+            scheduleNotificationForTodayIfNoneTaken(decks)
+          })
+      })
   }, []);
 
   return (
@@ -76,13 +107,3 @@ export default function App() {
     </Provider>
   );
 }
-
-// TODO
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

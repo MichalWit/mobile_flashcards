@@ -1,7 +1,12 @@
-import { ADD_NEW_DECK, ADD_CARD, QUIZ_DECK_TAKEN } from "../actions/Decks"
+import { ADD_NEW_DECK, ADD_DECKS, ADD_CARD, QUIZ_DECK_TAKEN } from "../actions/Decks"
 
 const decks = (state = {}, action) => {
     switch (action.type) {
+        case ADD_DECKS:
+            return {
+                ...state,
+                ...action.decks
+            }
         case ADD_NEW_DECK:
             return {
                 ...state,

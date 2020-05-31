@@ -1,6 +1,14 @@
 export const ADD_NEW_DECK = 'ADD_NEW_DECK'
+export const ADD_DECKS = 'ADD_DECKS'
 export const ADD_CARD = 'ADD_CARD'
 export const QUIZ_DECK_TAKEN = 'QUIZ_DECK_TAKEN'
+
+export function addDecks(decks) {
+    return {
+        type: ADD_DECKS,
+        decks
+    }
+}
 
 export function addNewDeck(deck) {
     return {
