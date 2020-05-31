@@ -33,7 +33,7 @@ function DeckListItem({ deck, navigation }) {
         <TouchableWithoutFeedback onPress={onGoToDeck}>
             <View style={styles.container}>
                 <Animated.Text style={{fontSize: titleSize}}>{deck.title}</Animated.Text>
-                <Text>{deck.cards.length} cards</Text>
+                <Text>{Object.values(deck.cards).length} cards</Text>
             </View>
         </TouchableWithoutFeedback>
     )

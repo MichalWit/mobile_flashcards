@@ -12,11 +12,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     buttonContainer: {
-      margin: 20
+      margin: 10
     },
     button: {
       alignItems: "center",
-      backgroundColor: "#DDDDDD",
+      backgroundColor: "#028ad4",
       padding: 10
     }
 })
@@ -53,7 +53,7 @@ class Card extends React.Component {
                                     style={styles.button}
                                     onPress={this.toggleAnswerShowed}
                                 >
-                                    <Text>Show Question</Text>
+                                    <Text style={{ color: 'white' }}>Show Question</Text>
                                 </TouchableOpacity>
                                 
                             </View>
@@ -65,7 +65,7 @@ class Card extends React.Component {
                                     style={styles.button}
                                     onPress={this.toggleAnswerShowed}
                                 >
-                                    <Text>Show Answer</Text>
+                                    <Text style={{ color: 'white' }}>Show Answer</Text>
                                 </TouchableOpacity>
                             </View>
                         </React.Fragment>
@@ -137,11 +137,23 @@ function CardDeck({ cards, goToDeck, addTakenOnDate }) {
                 <Text>Deck complete.</Text>
                 <Text>Correct answers: {results.correct} ({((results.correct / cards.length) * 100).toFixed(0)}%)</Text>
                 <Text>Incorrect answers: {results.incorrect} ({((results.incorrect / cards.length) * 100).toFixed(0)}%)</Text>
-                <View style={{marginTop: 10}}>
-                    <Button onPress={() => resetQuiz()} title='Restart Quiz'/>
+
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={resetQuiz}
+                    >
+                        <Text style={{ color: 'white' }}>Restart Quiz</Text>
+                    </TouchableOpacity>
                 </View>
-                <View style={{marginTop: 10}}>
-                    <Button onPress={() => goToDeck()} title='Back to Deck'/>
+
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={goToDeck}
+                    >
+                        <Text style={{ color: 'white' }}>Back to Deck</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         }

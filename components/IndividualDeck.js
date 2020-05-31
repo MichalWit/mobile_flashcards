@@ -27,7 +27,7 @@ class IndividualDeck extends React.Component {
         return (
             <View style={styles.container}>
                 <Text style={{fontSize: 26}}>{deck.title}</Text>
-                <Text style={{marginTop: 10}}>{deck.cards.length} cards</Text>
+                <Text style={{marginTop: 10}}>{Object.values(deck.cards).length} cards</Text>
                 <View style={{marginTop: 10}}>
                     <Button
                         onPress={this.onNewCardButtonPress}
